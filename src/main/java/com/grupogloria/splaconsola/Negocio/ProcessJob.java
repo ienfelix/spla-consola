@@ -53,7 +53,7 @@ public class ProcessJob
 		return factory.getObject();
 	}
 
-	@Scheduled(cron = "*/120 * * * * *")
+	@Scheduled(cron = "${app.cron}")
 	public void perform() throws Exception {
 
 		System.out.println("Job Started at :" + new Date());
