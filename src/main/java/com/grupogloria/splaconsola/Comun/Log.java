@@ -93,7 +93,10 @@ public class Log
         }
         finally
         {
-            inputStream.close();
+            if (inputStream != null)
+            {
+                inputStream.close();
+            }
         }
         return fileHandler;
     }
