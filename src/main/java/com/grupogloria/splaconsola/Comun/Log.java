@@ -88,12 +88,14 @@ public class Log
         }
         catch (Exception e)
         {
+            _logger.log(Level.INFO, e.getMessage());
             error(e);
             throw e;
         }
         finally
         {
-            if (inputStream != null)
+            _logger.log(Level.INFO, "LINEA ANTES DE EXCEPCION");
+            if (!inputStream.equals(null))
             {
                 inputStream.close();
             }
@@ -105,6 +107,7 @@ public class Log
     {
         try
         {
+            _logger.log(Level.INFO, message);
             FileHandler fileHandler = GetFileHandler(_entidad);
 		    _logger.addHandler(fileHandler);
             _logger.log(Level.INFO, message);
@@ -121,6 +124,7 @@ public class Log
     {
         try
         {
+            _logger.log(Level.SEVERE, e.getMessage());
             FileHandler fileHandler = GetFileHandler(_entidad);
 		    _logger.addHandler(fileHandler);
             var stack = e.getStackTrace()[Constante._0];
