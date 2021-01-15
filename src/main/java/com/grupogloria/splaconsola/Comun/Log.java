@@ -94,8 +94,9 @@ public class Log
         }
         finally
         {
-            _logger.log(Level.INFO, "LINEA ANTES DE EXCEPCION");
-            if (!inputStream.equals(null))
+            Integer x = 1 + 2;
+            _logger.log(Level.INFO, "LINEA ANTES DE EXCEPCION " + x.toString());
+            if (inputStream != null)
             {
                 inputStream.close();
             }
