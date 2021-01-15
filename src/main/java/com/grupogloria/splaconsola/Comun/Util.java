@@ -11,7 +11,8 @@ import com.grupogloria.splaconsola.Modelo.ColaboradorMO;
 import com.grupogloria.splaconsola.Modelo.ConexionMO;
 import com.grupogloria.splaconsola.Modelo.ProveedorMO;
 
-import org.springframework.util.ResourceUtils;
+import org.apache.commons.io.FileUtils;
+import org.springframework.core.io.ClassPathResource;
 
 public class Util
 {
@@ -22,11 +23,15 @@ public class Util
     public ConexionMO ObtenerConexion() throws Exception
     {
         ConexionMO conexionMO = new ConexionMO();
-        InputStream inputStream = null;
+        InputStream inputStream = null, inputStreamTemp = null;
         try
         {
-            File file = ResourceUtils.getFile(Constante.APPLICATION_PROPERTIES);
-            inputStream = new FileInputStream(file);
+            ClassPathResource classPathResource = new ClassPathResource(Constante.APPLICATION_PROPERTIES);
+            inputStreamTemp = classPathResource.getInputStream();
+            File tempFile = File.createTempFile(Constante.APPLICATION_PROPERTIES, null);
+            FileUtils.copyInputStreamToFile(inputStreamTemp, tempFile);
+            inputStream = new FileInputStream(tempFile);
+            tempFile.delete();
             Properties properties = new Properties();
             properties.load(inputStream);
             String ftpServer = IsNullOrEmpty(properties.getProperty(Constante.FTP_SERVER)) ? "" : properties.getProperty(Constante.FTP_SERVER);
@@ -55,7 +60,14 @@ public class Util
         }
         finally
         {
-            inputStream.close();
+            if (inputStream != null)
+            {
+                inputStream.close();
+            }
+            if (inputStreamTemp != null)
+            {
+                inputStreamTemp.close();
+            }
         }
         return conexionMO;
     }
@@ -91,11 +103,15 @@ public class Util
     public ApiMO ObtenerApi(String entidad, Integer tipoOperacion) throws Exception
     {
         ApiMO apiMO = new ApiMO();
-        InputStream inputStream = null;
+        InputStream inputStream = null, inputStreamTemp = null;
         try
         {
-            File file = ResourceUtils.getFile(Constante.APPLICATION_PROPERTIES);
-            inputStream = new FileInputStream(file);
+            ClassPathResource classPathResource = new ClassPathResource(Constante.APPLICATION_PROPERTIES);
+            inputStreamTemp = classPathResource.getInputStream();
+            File tempFile = File.createTempFile(Constante.APPLICATION_PROPERTIES, null);
+            FileUtils.copyInputStreamToFile(inputStreamTemp, tempFile);
+            inputStream = new FileInputStream(tempFile);
+            tempFile.delete();
             Properties properties = new Properties();
             properties.load(inputStream);
             String apiUrl = IsNullOrEmpty(properties.getProperty(Constante.API_URL)) ? "" : properties.getProperty(Constante.API_URL);
@@ -167,7 +183,14 @@ public class Util
         }
         finally
         {
-            inputStream.close();
+            if (inputStream != null)
+            {
+                inputStream.close();
+            }
+            if (inputStreamTemp != null)
+            {
+                inputStreamTemp.close();
+            }
         }
         return apiMO;
     }

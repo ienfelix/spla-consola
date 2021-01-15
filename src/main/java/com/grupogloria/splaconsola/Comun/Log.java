@@ -50,19 +50,17 @@ public class Log
     private FileHandler GetFileHandler(String entidad) throws Exception
     {
         FileHandler fileHandler = null;
-        InputStream inputStream = null;
+        InputStream inputStream = null, inputStreamTemp = null;
         try
         {
-            ClassPathResource classPathResource = new ClassPathResource("application.properties");
-            InputStream inputStreamTemp = classPathResource.getInputStream();
+            ClassPathResource classPathResource = new ClassPathResource(Constante.APPLICATION_PROPERTIES);
+            inputStreamTemp = classPathResource.getInputStream();
             File tempFile = File.createTempFile(Constante.APPLICATION_PROPERTIES, null);
             FileUtils.copyInputStreamToFile(inputStreamTemp, tempFile);
-            inputStreamTemp.close();
             inputStream = new FileInputStream(tempFile);
             tempFile.delete();
             Properties properties = new Properties();
             properties.load(inputStream);
-            inputStream.close();
             String rutaBitacora = Util.IsNullOrEmpty(properties.getProperty(Constante.API_RUTA_BITACORA)) ? "" : properties.getProperty(Constante.API_RUTA_BITACORA);
             String nombreBitacora = Util.IsNullOrEmpty(properties.getProperty(Constante.API_NOMBRE_BITACORA)) ? "" : properties.getProperty(Constante.API_NOMBRE_BITACORA);
             properties.clear();
@@ -105,6 +103,10 @@ public class Log
             {
                 inputStream.close();
             }
+            if (inputStreamTemp != null)
+            {
+                inputStreamTemp.close();
+            }
         }
         return fileHandler;
     }
@@ -113,7 +115,6 @@ public class Log
     {
         try
         {
-            _logger.log(Level.INFO, message);
             FileHandler fileHandler = GetFileHandler(_entidad);
 		    _logger.addHandler(fileHandler);
             _logger.log(Level.INFO, message);
@@ -130,7 +131,6 @@ public class Log
     {
         try
         {
-            _logger.log(Level.SEVERE, e.getMessage());
             FileHandler fileHandler = GetFileHandler(_entidad);
 		    _logger.addHandler(fileHandler);
             var stack = e.getStackTrace()[Constante._0];

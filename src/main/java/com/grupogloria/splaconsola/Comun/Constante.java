@@ -77,7 +77,7 @@ public class Constante
     public static final String API_RUTA_NO_PROCESADO = "api.ruta-noprocesado";
     public static final String API_RUTA_BITACORA = "api.ruta-bitacora";
     public static final String API_NOMBRE_BITACORA = "api.nombre-bitacora";
-    public static final String APPLICATION_PROPERTIES = "classpath:application.properties";
+    public static final String APPLICATION_PROPERTIES = "application.properties";
     public static final String CONTROLADOR_CLIENTE = "Cliente";
     public static final String METODO_CREAR_CLIENTE = "CrearCliente";
     public static final String METODO_EDITAR_CLIENTE = "EditarCliente";
