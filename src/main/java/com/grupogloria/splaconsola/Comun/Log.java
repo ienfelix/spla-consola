@@ -94,7 +94,7 @@ public class Log
         }
         finally
         {
-            Integer x = 1 + 2;
+            Integer x = 2 + 3;
             _logger.log(Level.INFO, "LINEA ANTES DE EXCEPCION " + x.toString());
             if (inputStream != null)
             {
