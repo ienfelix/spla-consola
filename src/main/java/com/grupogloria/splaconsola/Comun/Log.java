@@ -11,8 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.ftp.FTPClient;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.ClassPathResource;
 
 public class Log
 {
@@ -48,14 +49,20 @@ public class Log
 
     private FileHandler GetFileHandler(String entidad) throws Exception
     {
-        FileHandler fileHandler;
+        FileHandler fileHandler = null;
         InputStream inputStream = null;
         try
         {
-            File file = ResourceUtils.getFile(Constante.APPLICATION_PROPERTIES);
-            inputStream = new FileInputStream(file);
+            ClassPathResource classPathResource = new ClassPathResource("application.properties");
+            InputStream inputStreamTemp = classPathResource.getInputStream();
+            File tempFile = File.createTempFile(Constante.APPLICATION_PROPERTIES, null);
+            FileUtils.copyInputStreamToFile(inputStreamTemp, tempFile);
+            inputStreamTemp.close();
+            inputStream = new FileInputStream(tempFile);
+            tempFile.delete();
             Properties properties = new Properties();
             properties.load(inputStream);
+            inputStream.close();
             String rutaBitacora = Util.IsNullOrEmpty(properties.getProperty(Constante.API_RUTA_BITACORA)) ? "" : properties.getProperty(Constante.API_RUTA_BITACORA);
             String nombreBitacora = Util.IsNullOrEmpty(properties.getProperty(Constante.API_NOMBRE_BITACORA)) ? "" : properties.getProperty(Constante.API_NOMBRE_BITACORA);
             properties.clear();
@@ -94,8 +101,6 @@ public class Log
         }
         finally
         {
-            Integer x = 2 + 3;
-            _logger.log(Level.INFO, "LINEA ANTES DE EXCEPCION " + x.toString());
             if (inputStream != null)
             {
                 inputStream.close();
