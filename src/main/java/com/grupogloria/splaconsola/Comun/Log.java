@@ -37,7 +37,7 @@ public class Log
             {
                 for (String replyString : replies)
                 {
-                    _logger.info(String.format(Constante.SERVIDOR_RESPUESTA, replyCode, replyString));
+                    _logger.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
                 }
             }
         }

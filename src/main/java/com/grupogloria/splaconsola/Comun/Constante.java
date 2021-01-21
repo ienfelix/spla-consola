@@ -59,7 +59,10 @@ public class Constante
     public static final Integer _38 = 38;
     public static final Integer _39 = 39;
     public static final Integer _40 = 40;
-    public static final String SERVIDOR_RESPUESTA = "Respuesta del servidor > %1$s > %2$s";
+    public static final String FTP_CONNECTION = "Se establece conexión con el servidor > %1$s > %2$s";
+    public static final String FTP_REPLY = "Respuesta del servidor > %1$s > %2$s";
+    public static final String FTP_INICIO_SESION = "Se inicia sesión en el servidor > %1$s > %2$s";
+    public static final String FTP_WORKSPACE = "Se establece espacio de trabajo > %1$s";
     public static final String SERVIDOR_CAIDO = "El servidor FTP %1$s no se encuentra activo.";
     public static final String CREDENCIALES_INCORRECTAS = "El usuario %1$s y/o clave %2$s no son correctas.";
     public static final String DIRECTORIO_CAIDO = "El directorio %1$s del servidor FTP %2$s no se encuentra activo.";

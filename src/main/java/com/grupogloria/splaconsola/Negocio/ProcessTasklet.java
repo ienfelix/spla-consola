@@ -75,10 +75,11 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 		try
 		{
 			ConexionMO conexionMO = _util.ObtenerConexion();
+			_log.info(String.format(Constante.FTP_CONNECTION, conexionMO.getFtpServer(), conexionMO.getFtpPort()));
 			ftpClient.connect(conexionMO.getFtpServer(), conexionMO.getFtpPort());
 			Integer replyCode = ftpClient.getReplyCode();
 			String replyString = ftpClient.getReplyString();
-			_log.info(String.format(Constante.SERVIDOR_RESPUESTA, replyCode, replyString));
+			_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
 
 			if (!FTPReply.isPositiveCompletion(replyCode))
 			{
@@ -87,8 +88,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 			}
 			else
 			{
-				_log.info("ftp user " + conexionMO.getFtpUsername());
-				_log.info("ftp pass " + conexionMO.getFtpPassword());
+				_log.info(String.format(Constante.FTP_INICIO_SESION, conexionMO.getFtpUsername(), conexionMO.getFtpPassword()));
 				Boolean isConnected = ftpClient.login(conexionMO.getFtpUsername(), conexionMO.getFtpPassword());
 			
 				if (!isConnected)
@@ -97,7 +97,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 				}
 				else
 				{
-					_log.info("ftp directory " + conexionMO.getFtpDirectory());
+					_log.info(String.format(Constante.FTP_WORKSPACE, conexionMO.getFtpDirectory()));
 					Boolean isDirectory = ftpClient.changeWorkingDirectory(conexionMO.getFtpDirectory());
 					
 					if (!isDirectory)
@@ -127,7 +127,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 									InputStream inputStream = ftpClient.retrieveFileStream(nombreArchivo);
 									replyCode = ftpClient.getReply();
 									replyString = ftpClient.getReplyString();
-									_log.info(String.format(Constante.SERVIDOR_RESPUESTA, replyCode, replyString));
+									_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
 									File tempFile = File.createTempFile(nombreArchivoSinExtension, Constante.DELIMITADOR_PUNTO + Constante.EXTENSION_ZIP);
 									FileUtils.copyInputStreamToFile(inputStream, tempFile);
 									inputStream.close();
