@@ -87,6 +87,8 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 			}
 			else
 			{
+				_log.info("ftp user " + conexionMO.getFtpUsername());
+				_log.info("ftp pass " + conexionMO.getFtpPassword());
 				Boolean isConnected = ftpClient.login(conexionMO.getFtpUsername(), conexionMO.getFtpPassword());
 			
 				if (!isConnected)
@@ -95,6 +97,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 				}
 				else
 				{
+					_log.info("ftp directory " + conexionMO.getFtpDirectory());
 					Boolean isDirectory = ftpClient.changeWorkingDirectory(conexionMO.getFtpDirectory());
 					
 					if (!isDirectory)
