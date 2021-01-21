@@ -107,8 +107,8 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 					}
 					else
 					{
+						_log.info(String.format(Constante.ENCOLA_ARCHIVO, ftpClient.listFiles().length));
 						FTPFile[] ftpFiles = ftpClient.listFiles();
-						_log.info(String.format(Constante.ENCOLA_ARCHIVO, ftpFiles.length));
 						
 						for (FTPFile ftpFile : ftpFiles)
 						{
@@ -131,7 +131,6 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 									File tempFile = File.createTempFile(nombreArchivoSinExtension, Constante.DELIMITADOR_PUNTO + Constante.EXTENSION_ZIP);
 									FileUtils.copyInputStreamToFile(inputStream, tempFile);
 									inputStream.close();
-									ftpClient.completePendingCommand();
 									ZipFile zipFile = new ZipFile(tempFile);
 									Enumeration<? extends ZipEntry> entries = zipFile.entries();
 									NotificacionMO notificacionMO = new NotificacionMO();
