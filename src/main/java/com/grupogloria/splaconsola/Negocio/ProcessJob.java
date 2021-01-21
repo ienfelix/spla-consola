@@ -38,13 +38,9 @@ public class ProcessJob
 	}
 
 	@Bean
-	public MapJobRepositoryFactoryBean mapJobRepositoryFactory(ResourcelessTransactionManager txManager)
-			throws Exception {
-
+	public MapJobRepositoryFactoryBean mapJobRepositoryFactory(ResourcelessTransactionManager txManager) throws Exception {
 		MapJobRepositoryFactoryBean factory = new MapJobRepositoryFactoryBean(txManager);
-
 		factory.afterPropertiesSet();
-
 		return factory;
 	}
 
@@ -55,14 +51,9 @@ public class ProcessJob
 
 	@Scheduled(cron = "${app.cron}")
 	public void perform() throws Exception {
-
 		System.out.println("Job Started at :" + new Date());
-
-		JobParameters param = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis()))
-				.toJobParameters();
-
+		JobParameters param = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis())).toJobParameters();
 		JobExecution execution = jobLauncher.run(readFiles(), param);
-
 		System.out.println("Job finished with status :" + execution.getStatus());
 	}
 

@@ -67,7 +67,7 @@ public class Log
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String date = simpleDateFormat.format(new Date());
             String nombre = "";
-
+            
             if (entidad.equals(""))
             {
                 nombre = nombreBitacora + Constante.DELIMITADOR_PUNTO + Constante.EXTENSION_TXT;
@@ -93,7 +93,6 @@ public class Log
         }
         catch (Exception e)
         {
-            _logger.log(Level.INFO, e.getMessage());
             error(e);
             throw e;
         }
@@ -116,7 +115,7 @@ public class Log
         try
         {
             FileHandler fileHandler = GetFileHandler(_entidad);
-		    _logger.addHandler(fileHandler);
+		    //_logger.addHandler(fileHandler);
             _logger.log(Level.INFO, message);
             fileHandler.close();
         }
@@ -132,7 +131,7 @@ public class Log
         try
         {
             FileHandler fileHandler = GetFileHandler(_entidad);
-		    _logger.addHandler(fileHandler);
+		    //_logger.addHandler(fileHandler);
             var stack = e.getStackTrace()[Constante._0];
             _logger.log(Level.SEVERE, String.format(Constante.ERROR, stack.getClassName(), stack.getMethodName(), stack.getLineNumber(), e.getMessage()));
             fileHandler.close();

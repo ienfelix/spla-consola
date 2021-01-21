@@ -87,6 +87,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 			}
 			else
 			{
+				_log.info("Intentando conectar ftp.");
 				Boolean isConnected = ftpClient.login(conexionMO.getFtpUsername(), conexionMO.getFtpPassword());
 			
 				if (!isConnected)
@@ -95,6 +96,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 				}
 				else
 				{
+					_log.info("Intentando cambiar directorio ftp.");
 					Boolean isDirectory = ftpClient.changeWorkingDirectory(conexionMO.getFtpDirectory());
 					
 					if (!isDirectory)
@@ -104,6 +106,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 					}
 					else
 					{
+						_log.info("Intentando leer archivos presentes en el directorio.");
 						FTPFile[] ftpFiles = ftpClient.listFiles();
 						
 						for (FTPFile ftpFile : ftpFiles)
