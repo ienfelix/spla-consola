@@ -48,7 +48,7 @@ public class ProveedorNE implements ProveedorIN
                     try
                     {
                         cadena = listaProveedores.get(i);
-                        _log.info(String.format(Constante.PROCESANDO_ARCHIVO, Constante.ENTIDAD_PROVEEDOR, cadena));
+                        _log.info(String.format(Constante.PROCESANDO_ENTIDAD, Constante.ENTIDAD_PROVEEDOR, cadena));
 
                         if (cadena.equals(""))
                         {

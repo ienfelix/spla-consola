@@ -77,8 +77,8 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 			ConexionMO conexionMO = _util.ObtenerConexion();
 			ftpClient.connect(conexionMO.getFtpServer(), conexionMO.getFtpPort());
 			Integer replyCode = ftpClient.getReplyCode();
-			String reply = ftpClient.getReplyString();
-			_log.info(String.format(Constante.SERVIDOR_RESPUESTA, reply));
+			String replyString = ftpClient.getReplyString();
+			_log.info(String.format(Constante.SERVIDOR_RESPUESTA, replyCode, replyString));
 
 			if (!FTPReply.isPositiveCompletion(replyCode))
 			{
@@ -87,7 +87,6 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 			}
 			else
 			{
-				_log.info("Intentando conectar ftp.");
 				Boolean isConnected = ftpClient.login(conexionMO.getFtpUsername(), conexionMO.getFtpPassword());
 			
 				if (!isConnected)
@@ -96,7 +95,6 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 				}
 				else
 				{
-					_log.info("Intentando cambiar directorio ftp.");
 					Boolean isDirectory = ftpClient.changeWorkingDirectory(conexionMO.getFtpDirectory());
 					
 					if (!isDirectory)
@@ -106,8 +104,8 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 					}
 					else
 					{
-						_log.info("Intentando leer archivos presentes en el directorio.");
 						FTPFile[] ftpFiles = ftpClient.listFiles();
+						_log.info(String.format(Constante.ENCOLA_ARCHIVO, ftpFiles.length));
 						
 						for (FTPFile ftpFile : ftpFiles)
 						{
@@ -119,13 +117,14 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 							{
 								if (fileType == FTPFile.FILE_TYPE && extension.equals(Constante.EXTENSION_ZIP))
 								{
-									_log.info(String.format(Constante.PROCESANDO_ARCHIVO, ftpFile.getName(), ftpFile.getName()));
+									_log.info(String.format(Constante.RECORRIENDO_ARCHIVO, nombreArchivo));
 									Boolean esCliente = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_CLIENTE.toLowerCase());
 									Boolean esProveedor = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_PROVEEDOR.toLowerCase());
 									Boolean esColaborador = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_COLABORADOR.toLowerCase());
 									InputStream inputStream = ftpClient.retrieveFileStream(nombreArchivo);
-									reply = ftpClient.getReplyString();
-									_log.info(String.format(Constante.SERVIDOR_RESPUESTA, reply));
+									replyCode = ftpClient.getReply();
+									replyString = ftpClient.getReplyString();
+									_log.info(String.format(Constante.SERVIDOR_RESPUESTA, replyCode, replyString));
 									File tempFile = File.createTempFile(nombreArchivoSinExtension, Constante.DELIMITADOR_PUNTO + Constante.EXTENSION_ZIP);
 									FileUtils.copyInputStreamToFile(inputStream, tempFile);
 									inputStream.close();
@@ -144,7 +143,9 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 										List<String> lines = IOUtils.readLines(currentInputStream, Constante.UTF_8);
 										currentInputStream.close();
 										ArchivoMO archivoMO = new ArchivoMO();
-										archivoMO.setNombreArchivo(entry.getName());
+										String archivoEnCurso = entry.getName();
+										archivoMO.setNombreArchivo(archivoEnCurso);
+										_log.info(String.format(Constante.ENCURSO_ARCHIVO, archivoEnCurso));
 										
 										if (esCliente)
 										{

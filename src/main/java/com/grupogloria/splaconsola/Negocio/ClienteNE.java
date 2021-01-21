@@ -48,7 +48,7 @@ public class ClienteNE implements ClienteIN
                     try
                     {
                         cadena = listaClientes.get(i).trim();
-                        _log.info(String.format(Constante.PROCESANDO_ARCHIVO, Constante.ENTIDAD_CLIENTE, cadena));
+                        _log.info(String.format(Constante.PROCESANDO_ENTIDAD, Constante.ENTIDAD_CLIENTE, cadena));
 
                         if (cadena.equals(""))
                         {

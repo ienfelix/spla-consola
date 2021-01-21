@@ -30,13 +30,14 @@ public class Log
 	{
         try
         {
+            Integer replyCode = ftpClient.getReply();
             String[] replies = ftpClient.getReplyStrings();
 		
             if (replies != null && replies.length > Constante._0)
             {
-                for (String reply : replies)
+                for (String replyString : replies)
                 {
-                    _logger.info(String.format(Constante.SERVIDOR_RESPUESTA, reply));
+                    _logger.info(String.format(Constante.SERVIDOR_RESPUESTA, replyCode, replyString));
                 }
             }
         }
@@ -115,7 +116,7 @@ public class Log
         try
         {
             FileHandler fileHandler = GetFileHandler(_entidad);
-		    //_logger.addHandler(fileHandler);
+		    _logger.addHandler(fileHandler);
             _logger.log(Level.INFO, message);
             fileHandler.close();
         }
@@ -131,7 +132,7 @@ public class Log
         try
         {
             FileHandler fileHandler = GetFileHandler(_entidad);
-		    //_logger.addHandler(fileHandler);
+		    _logger.addHandler(fileHandler);
             var stack = e.getStackTrace()[Constante._0];
             _logger.log(Level.SEVERE, String.format(Constante.ERROR, stack.getClassName(), stack.getMethodName(), stack.getLineNumber(), e.getMessage()));
             fileHandler.close();

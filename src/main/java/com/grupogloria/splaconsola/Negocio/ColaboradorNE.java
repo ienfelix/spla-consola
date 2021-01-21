@@ -48,7 +48,7 @@ public class ColaboradorNE implements ColaboradorIN
                     try
                     {
                         cadena = listaColaboradores.get(i).trim();
-                        _log.info(String.format(Constante.PROCESANDO_ARCHIVO, Constante.ENTIDAD_COLABORADOR, cadena));
+                        _log.info(String.format(Constante.PROCESANDO_ENTIDAD, Constante.ENTIDAD_COLABORADOR, cadena));
                         
                         if (cadena.equals(""))
                         {

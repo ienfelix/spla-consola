@@ -59,12 +59,15 @@ public class Constante
     public static final Integer _38 = 38;
     public static final Integer _39 = 39;
     public static final Integer _40 = 40;
-    public static final String SERVIDOR_RESPUESTA = "Respuesta del servidor: %1$s";
+    public static final String SERVIDOR_RESPUESTA = "Respuesta del servidor > %1$s > %2$s";
     public static final String SERVIDOR_CAIDO = "El servidor FTP %1$s no se encuentra activo.";
     public static final String CREDENCIALES_INCORRECTAS = "El usuario %1$s y/o clave %2$s no son correctas.";
     public static final String DIRECTORIO_CAIDO = "El directorio %1$s del servidor FTP %2$s no se encuentra activo.";
     public static final String ERROR = "%1$s > %2$s > %3$s > %4$s";
-    public static final String PROCESANDO_ARCHIVO = "Procesando %1$s archivo %2$s";
+    public static final String ENCOLA_ARCHIVO = "Archivos en cola > %1$s";
+    public static final String RECORRIENDO_ARCHIVO = "Recorriendo archivo %1$s";
+    public static final String ENCURSO_ARCHIVO = "Archivo en curso %1$s";
+    public static final String PROCESANDO_ENTIDAD = "Procesando %1$s archivo %2$s";
     public static final String TRAMITANDO_ARCHIVO = "%1$s tramitó y creó el archivo %2$s";
     public static final String VACIO_ARCHIVO = "El archivo %1$s presenta la fila %2$s vacía.";
     public static final String ENTIDAD_CLIENTE = "Cliente";
