@@ -81,7 +81,6 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 			Integer replyCode = _ftpClient.getReplyCode();
 			String replyString = _ftpClient.getReplyString();
 			_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
-			_log.info(String.format(Constante.FTP_WORKSPACE, _ftpClient.printWorkingDirectory()));
 
 			if (!FTPReply.isPositiveCompletion(replyCode))
 			{
@@ -92,6 +91,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 			{
 				_log.info(String.format(Constante.FTP_INICIO_SESION, conexionMO.getFtpUsername(), conexionMO.getFtpPassword()));
 				Boolean isConnected = _ftpClient.login(conexionMO.getFtpUsername(), conexionMO.getFtpPassword());
+				_ftpClient.enterLocalPassiveMode();
 				replyCode = _ftpClient.getReplyCode();
 				replyString = _ftpClient.getReplyString();
 				_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
@@ -107,7 +107,6 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 					replyCode = _ftpClient.getReplyCode();
 					replyString = _ftpClient.getReplyString();
 					_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
-					_log.info(String.format(Constante.FTP_WORKSPACE, _ftpClient.printWorkingDirectory()));
 					
 					if (!isDirectory)
 					{
