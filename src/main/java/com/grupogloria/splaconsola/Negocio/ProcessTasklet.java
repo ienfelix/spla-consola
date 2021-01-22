@@ -39,6 +39,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 	private NotificacionNE _notificacionNE = null;
 	private Util _util = null;
 	private Log _log = null;
+	private FTPClient _ftpClient = null;
 
 	public ProcessTasklet() throws Exception
 	{
@@ -48,6 +49,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 		_notificacionNE = new NotificacionNE();
 		_util = new Util();
 		_log = new Log(ProcessTasklet.class.getName(), "");
+		_ftpClient = new FTPClient();
 	}
 
     @Override
@@ -71,25 +73,28 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 
 	private void ProcesarInformacion() throws Exception
 	{
-		FTPClient ftpClient = new FTPClient();
 		try
 		{
 			ConexionMO conexionMO = _util.ObtenerConexion();
 			_log.info(String.format(Constante.FTP_CONNECTION, conexionMO.getFtpServer(), conexionMO.getFtpPort()));
-			ftpClient.connect(conexionMO.getFtpServer(), conexionMO.getFtpPort());
-			Integer replyCode = ftpClient.getReplyCode();
-			String replyString = ftpClient.getReplyString();
+			_ftpClient.connect(conexionMO.getFtpServer(), conexionMO.getFtpPort());
+			Integer replyCode = _ftpClient.getReplyCode();
+			String replyString = _ftpClient.getReplyString();
 			_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
+			_log.info(String.format(Constante.FTP_WORKSPACE, _ftpClient.printWorkingDirectory()));
 
 			if (!FTPReply.isPositiveCompletion(replyCode))
 			{
 				_log.info(String.format(Constante.SERVIDOR_CAIDO, conexionMO.getFtpServer()));
-				_log.ShowServerReply(replyCode, ftpClient.getReplyStrings());
+				_log.ShowServerReply(replyCode, _ftpClient.getReplyStrings());
 			}
 			else
 			{
 				_log.info(String.format(Constante.FTP_INICIO_SESION, conexionMO.getFtpUsername(), conexionMO.getFtpPassword()));
-				Boolean isConnected = ftpClient.login(conexionMO.getFtpUsername(), conexionMO.getFtpPassword());
+				Boolean isConnected = _ftpClient.login(conexionMO.getFtpUsername(), conexionMO.getFtpPassword());
+				replyCode = _ftpClient.getReplyCode();
+				replyString = _ftpClient.getReplyString();
+				_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
 			
 				if (!isConnected)
 				{
@@ -98,18 +103,21 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 				else
 				{
 					_log.info(String.format(Constante.FTP_WORKSPACE, conexionMO.getFtpDirectory()));
-					Boolean isDirectory = ftpClient.changeWorkingDirectory(conexionMO.getFtpDirectory());
-					_log.info("isDirectory > " + isDirectory);
+					Boolean isDirectory = _ftpClient.changeWorkingDirectory(conexionMO.getFtpDirectory());
+					replyCode = _ftpClient.getReplyCode();
+					replyString = _ftpClient.getReplyString();
+					_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
+					_log.info(String.format(Constante.FTP_WORKSPACE, _ftpClient.printWorkingDirectory()));
 					
 					if (!isDirectory)
 					{
 						_log.info(String.format(Constante.DIRECTORIO_CAIDO, conexionMO.getFtpDirectory(), conexionMO.getFtpServer()));
-						_log.ShowServerReply(replyCode, ftpClient.getReplyStrings());
+						_log.ShowServerReply(replyCode, _ftpClient.getReplyStrings());
 					}
 					else
 					{
-						_log.info(String.format(Constante.ENCOLA_ARCHIVO, ftpClient.listFiles().length));
-						FTPFile[] ftpFiles = ftpClient.listFiles();
+						FTPFile[] ftpFiles = _ftpClient.listFiles();
+						_log.info(String.format(Constante.ENCOLA_ARCHIVO, ftpFiles.length));
 						
 						for (FTPFile ftpFile : ftpFiles)
 						{
@@ -125,9 +133,9 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 									Boolean esCliente = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_CLIENTE.toLowerCase());
 									Boolean esProveedor = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_PROVEEDOR.toLowerCase());
 									Boolean esColaborador = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_COLABORADOR.toLowerCase());
-									InputStream inputStream = ftpClient.retrieveFileStream(nombreArchivo);
-									replyCode = ftpClient.getReply();
-									replyString = ftpClient.getReplyString();
+									InputStream inputStream = _ftpClient.retrieveFileStream(nombreArchivo);
+									replyCode = _ftpClient.getReply();
+									replyString = _ftpClient.getReplyString();
 									_log.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
 									File tempFile = File.createTempFile(nombreArchivoSinExtension, Constante.DELIMITADOR_PUNTO + Constante.EXTENSION_ZIP);
 									FileUtils.copyInputStreamToFile(inputStream, tempFile);
@@ -171,7 +179,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 
 									zipFile.close();
 									FileUtils.forceDelete(tempFile);
-									ftpClient.deleteFile(ftpFile.getName());
+									_ftpClient.deleteFile(ftpFile.getName());
 									notificacionMO.setListaArchivos(listaArchivos);
 									ObjetoNotificacionMO objetoNotificacionMO = _notificacionNE.EnviarNotificacion(notificacionMO);
 									_log.info(objetoNotificacionMO.getMensaje());
@@ -194,8 +202,12 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 		}
 		finally
 		{
-			ftpClient.logout();
-			ftpClient.disconnect();
+			if (_ftpClient.isAvailable())
+			{
+				_ftpClient.logout();
+			}
+
+			_ftpClient.disconnect();
 		}
 	}
 }
