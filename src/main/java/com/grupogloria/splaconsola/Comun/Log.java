@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.core.io.ClassPathResource;
 
 public class Log
@@ -26,16 +25,13 @@ public class Log
         _entidad = entidad;
     }
 
-    public void ShowServerReply(FTPClient ftpClient) throws Exception
+    public void ShowServerReply(Integer replyCode, String[] repliesString) throws Exception
 	{
         try
         {
-            Integer replyCode = ftpClient.getReply();
-            String[] replies = ftpClient.getReplyStrings();
-		
-            if (replies != null && replies.length > Constante._0)
+            if (repliesString != null && repliesString.length > Constante._0)
             {
-                for (String replyString : replies)
+                for (String replyString : repliesString)
                 {
                     _logger.info(String.format(Constante.FTP_REPLY, replyCode, replyString));
                 }

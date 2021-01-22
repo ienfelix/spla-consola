@@ -84,7 +84,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 			if (!FTPReply.isPositiveCompletion(replyCode))
 			{
 				_log.info(String.format(Constante.SERVIDOR_CAIDO, conexionMO.getFtpServer()));
-				_log.ShowServerReply(ftpClient);
+				_log.ShowServerReply(replyCode, ftpClient.getReplyStrings());
 			}
 			else
 			{
@@ -99,11 +99,12 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 				{
 					_log.info(String.format(Constante.FTP_WORKSPACE, conexionMO.getFtpDirectory()));
 					Boolean isDirectory = ftpClient.changeWorkingDirectory(conexionMO.getFtpDirectory());
+					_log.info("isDirectory > " + isDirectory);
 					
 					if (!isDirectory)
 					{
 						_log.info(String.format(Constante.DIRECTORIO_CAIDO, conexionMO.getFtpDirectory(), conexionMO.getFtpServer()));
-						_log.ShowServerReply(ftpClient);
+						_log.ShowServerReply(replyCode, ftpClient.getReplyStrings());
 					}
 					else
 					{
@@ -112,6 +113,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 						
 						for (FTPFile ftpFile : ftpFiles)
 						{
+							_log.info(String.format(Constante.RECORRIENDO_ARCHIVO, ftpFile.getName()));
 							Integer fileType = ftpFile.getType();
 							String nombreArchivo = ftpFile.getName();
 							String nombreArchivoSinExtension = nombreArchivo.contains(Constante.DELIMITADOR_PUNTO) ? nombreArchivo.substring(Constante._0, nombreArchivo.indexOf(Constante.DELIMITADOR_PUNTO)) : "";
@@ -120,7 +122,6 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 							{
 								if (fileType == FTPFile.FILE_TYPE && extension.equals(Constante.EXTENSION_ZIP))
 								{
-									_log.info(String.format(Constante.RECORRIENDO_ARCHIVO, nombreArchivo));
 									Boolean esCliente = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_CLIENTE.toLowerCase());
 									Boolean esProveedor = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_PROVEEDOR.toLowerCase());
 									Boolean esColaborador = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_COLABORADOR.toLowerCase());
