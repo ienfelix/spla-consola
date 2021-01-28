@@ -1,5 +1,15 @@
 {"properties": [
   {
+    "name": "app.cron",
+    "type": "java.lang.String",
+    "description": "A description for 'app.cron'"
+  },
+  {
+    "name": "app.zone",
+    "type": "java.lang.String",
+    "description": "A description for 'app.zone'"
+  },
+  {
     "name": "ftp.server",
     "type": "java.lang.String",
     "description": "A description for 'ftp.server'"
@@ -55,13 +65,18 @@
     "description": "A description for 'api.nombre-bitacora'"
   },
   {
-    "name": "email.recipients",
+    "name": "email.de",
     "type": "java.lang.String",
-    "description": "A description for 'email.recipients'"
+    "description": "A description for 'email.de'"
   },
   {
-    "name": "app.cron",
+    "name": "email.para",
     "type": "java.lang.String",
-    "description": "A description for 'app.cron'"
+    "description": "A description for 'email.para'"
+  },
+  {
+    "name": "email.asunto",
+    "type": "java.lang.String",
+    "description": "A description for 'email.asunto'"
   }
 ]}

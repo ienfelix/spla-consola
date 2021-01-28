@@ -1,10 +1,13 @@
 package com.grupogloria.splaconsola.Negocio;
 
+import java.util.List;
+
 import com.grupogloria.splaconsola.Comun.Constante;
 import com.grupogloria.splaconsola.Comun.Log;
 import com.grupogloria.splaconsola.Comun.Util;
 import com.grupogloria.splaconsola.Interfaz.NotificacionIN;
 import com.grupogloria.splaconsola.Modelo.ApiMO;
+import com.grupogloria.splaconsola.Modelo.ArchivoMO;
 import com.grupogloria.splaconsola.Modelo.NotificacionMO;
 import com.grupogloria.splaconsola.Modelo.ObjetoNotificacionMO;
 
@@ -25,13 +28,19 @@ public class NotificacionNE implements NotificacionIN
         _log = new Log(NotificacionNE.class.getName(), "");
     }
 
-    public ObjetoNotificacionMO EnviarNotificacion(NotificacionMO notificacionMO) throws Exception
+    public ObjetoNotificacionMO EnviarNotificacion(String nombreArchivo, List<ArchivoMO> listaArchivos, String entidad) throws Exception
     {
         ObjetoNotificacionMO objetoNotificacionMO = new ObjetoNotificacionMO();
         try
         {
             ApiMO apiMO = _util.ObtenerApi(Constante.ENTIDAD_NOTIFICACION, Constante._0);
-            notificacionMO.setDestinatario(apiMO.getDestinatario());
+            NotificacionMO notificacionMO = new NotificacionMO();
+            notificacionMO.setNombreArchivo(nombreArchivo);
+            notificacionMO.setListaArchivos(listaArchivos);
+            notificacionMO.setDe(apiMO.getDe());
+            notificacionMO.setPara(apiMO.getPara());
+            notificacionMO.setAsunto(apiMO.getAsunto());
+            notificacionMO.setEntidad(entidad);
             String enlace = apiMO.getApiEnlace();
             String metodo = Constante.DELIMITADOR_BARRA_OBLICUA + apiMO.getApiControlador() + Constante.DELIMITADOR_BARRA_OBLICUA + apiMO.getApiMetodo();
             WebClient webClient = WebClient.create(enlace);

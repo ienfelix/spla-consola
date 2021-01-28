@@ -73,7 +73,7 @@ public class ProveedorNE implements ProveedorIN
                                     respuestaMO = EditarProveedor(ProveedorMO);
                                     break;
                                 case Constante.TIPO_OPERACION_ANULAR:
-                                    String[] columnas = cadena.split(Constante.DELIMITER_SCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
+                                    String[] columnas = cadena.split(Constante.DELIMITER_ESCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
                                     String idInternoProveedor = columnas[Constante._1].trim();
                                     respuestaMO = AnularProveedor(idInternoProveedor);
                                     break;

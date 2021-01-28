@@ -13,7 +13,6 @@ import com.grupogloria.splaconsola.Comun.Log;
 import com.grupogloria.splaconsola.Comun.Util;
 import com.grupogloria.splaconsola.Modelo.ArchivoMO;
 import com.grupogloria.splaconsola.Modelo.ConexionMO;
-import com.grupogloria.splaconsola.Modelo.NotificacionMO;
 import com.grupogloria.splaconsola.Modelo.ObjetoClienteMO;
 import com.grupogloria.splaconsola.Modelo.ObjetoColaboradorMO;
 import com.grupogloria.splaconsola.Modelo.ObjetoNotificacionMO;
@@ -141,8 +140,6 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 									inputStream.close();
 									ZipFile zipFile = new ZipFile(tempFile);
 									Enumeration<? extends ZipEntry> entries = zipFile.entries();
-									NotificacionMO notificacionMO = new NotificacionMO();
-									notificacionMO.setNombreArchivo(nombreArchivo);
 									List<ArchivoMO> listaArchivos = null;
 
 									while(entries.hasMoreElements())
@@ -179,8 +176,8 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 									zipFile.close();
 									FileUtils.forceDelete(tempFile);
 									_ftpClient.deleteFile(ftpFile.getName());
-									notificacionMO.setListaArchivos(listaArchivos);
-									ObjetoNotificacionMO objetoNotificacionMO = _notificacionNE.EnviarNotificacion(notificacionMO);
+									String entidad = esCliente ? Constante.ENTIDAD_CLIENTE : esProveedor ? Constante.ENTIDAD_PROVEEDOR : Constante.ENTIDAD_COLABORADOR;
+									ObjetoNotificacionMO objetoNotificacionMO = _notificacionNE.EnviarNotificacion(nombreArchivo, listaArchivos, entidad);
 									_log.info(objetoNotificacionMO.getMensaje());
 								}
 							}

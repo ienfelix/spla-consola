@@ -16,10 +16,6 @@ import org.springframework.core.io.ClassPathResource;
 
 public class Util
 {
-    public Util()
-    {
-    }
-
     public ConexionMO ObtenerConexion() throws Exception
     {
         ConexionMO conexionMO = new ConexionMO();
@@ -115,7 +111,10 @@ public class Util
             Properties properties = new Properties();
             properties.load(inputStream);
             String apiUrl = IsNullOrEmpty(properties.getProperty(Constante.API_URL)) ? "" : properties.getProperty(Constante.API_URL);
-            String recipients = IsNullOrEmpty(properties.getProperty(Constante.EMAIL_RECIPIENTS)) ? "" : properties.getProperty(Constante.EMAIL_RECIPIENTS);
+            String de = IsNullOrEmpty(properties.getProperty(Constante.EMAIL_DE)) ? "" : properties.getProperty(Constante.EMAIL_DE);
+            String para = IsNullOrEmpty(properties.getProperty(Constante.EMAIL_PARA)) ? "" : properties.getProperty(Constante.EMAIL_PARA);
+            String asunto = IsNullOrEmpty(properties.getProperty(Constante.EMAIL_ASUNTO)) ? "" : properties.getProperty(Constante.EMAIL_ASUNTO);
+            String ambiente = IsNullOrEmpty(properties.getProperty(Constante.FTP_ENVIRONMENT)) ? "" : properties.getProperty(Constante.FTP_ENVIRONMENT);
             properties.clear();
             apiMO.setApiEnlace(apiUrl);
             
@@ -174,7 +173,10 @@ public class Util
             {
                 apiMO.setApiControlador(Constante.CONTROLADOR_NOTIFICACION);
                 apiMO.setApiMetodo(Constante.METODO_ENVIAR_NOTIFICACION);
-                apiMO.setDestinatario(recipients);
+                apiMO.setDe(de);
+                apiMO.setPara(para);
+                asunto = asunto + Constante.DELIMITADOR_ESPACIO + Constante.DELIMITADOR_GUION + Constante.DELIMITADOR_ESPACIO + ambiente;
+                apiMO.setAsunto(asunto);
             }
         }
         catch (Exception e)
@@ -200,7 +202,7 @@ public class Util
 		ClienteMO clienteMO = new ClienteMO();
 		try
 		{
-            String[] columnas = cadena.split(Constante.DELIMITER_SCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
+            String[] columnas = cadena.split(Constante.DELIMITER_ESCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
             clienteMO.setIdInternoCliente(columnas[Constante._1].trim());
             clienteMO.setDenominacion(columnas[Constante._2].trim());
             clienteMO.setDocumento(columnas[Constante._3].trim());
@@ -405,7 +407,7 @@ public class Util
 		ProveedorMO proveedorMO = new ProveedorMO();
 		try
 		{
-            String[] columnas = cadena.split(Constante.DELIMITER_SCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
+            String[] columnas = cadena.split(Constante.DELIMITER_ESCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
             proveedorMO.setIdInternoCliente(columnas[Constante._1].trim());
             proveedorMO.setDenominacion(columnas[Constante._2].trim());
             proveedorMO.setDocumento(columnas[Constante._3].trim());
@@ -610,7 +612,7 @@ public class Util
 		ColaboradorMO colaboradorMO = new ColaboradorMO();
 		try
 		{
-            String[] columnas = cadena.split(Constante.DELIMITER_SCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
+            String[] columnas = cadena.split(Constante.DELIMITER_ESCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
             colaboradorMO.setIdInternoCliente(columnas[Constante._1].trim());
             colaboradorMO.setDenominacion(columnas[Constante._2].trim());
             colaboradorMO.setDocumento(columnas[Constante._3].trim());

@@ -73,7 +73,7 @@ public class ColaboradorNE implements ColaboradorIN
                                     respuestaMO = EditarColaborador(colaboradorMO);
                                     break;
                                 case Constante.TIPO_OPERACION_ANULAR:
-                                    String[] columnas = cadena.split(Constante.DELIMITER_SCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
+                                    String[] columnas = cadena.split(Constante.DELIMITER_ESCAPE + Constante.DELIMITADOR_BARRA, Constante.NO_LIMIT);
                                     String idInternoCliente = columnas[Constante._1].trim();
                                     respuestaMO = AnularColaborador(idInternoCliente);
                                     break;

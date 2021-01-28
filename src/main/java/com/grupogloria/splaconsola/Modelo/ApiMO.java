@@ -5,7 +5,9 @@ public class ApiMO
     private String ApiEnlace;
     private String ApiControlador;
     private String ApiMetodo;
-    private String Destinatario;
+    private String De;
+    private String Para;
+    private String Asunto;
 
     public String getApiEnlace() {
         return ApiEnlace;
@@ -31,11 +33,27 @@ public class ApiMO
         ApiMetodo = apiMetodo;
     }
 
-    public String getDestinatario() {
-        return Destinatario;
+    public String getDe() {
+        return De;
     }
 
-    public void setDestinatario(String destinatario) {
-        Destinatario = destinatario;
+    public void setDe(String de) {
+        this.De = de;
+    }
+
+    public String getPara() {
+        return Para;
+    }
+
+    public void setPara(String para) {
+        Para = para;
+    }
+
+    public String getAsunto() {
+        return Asunto;
+    }
+
+    public void setAsunto(String asunto) {
+        Asunto = asunto;
     }
 }

@@ -2,6 +2,7 @@ package com.grupogloria.splaconsola.Comun;
 
 public class Constante
 {
+    public static final String CUMPLO_CRON = "cumplo.cron";
     public static final String FTP_SERVER = "ftp.server";
     public static final String FTP_USERNAME = "ftp.username";
     public static final String FTP_PASSWORD = "ftp.password";
@@ -12,10 +13,12 @@ public class Constante
     public static final String DELIMITADOR_BARRA_OBLICUA = "/";
     public static final String DELIMITADOR_PREGUNTA = "?";
     public static final String DELIMITADOR_IGUAL = "=";
+    public static final String DELIMITADOR_GUION = "-";
     public static final String DELIMITADOR_GUION_BAJO = "_";
     public static final String DELIMITADOR_SALTO_LINEA = "\n";
     public static final String DELIMITADOR_PUNTO = ".";
-    public static final String DELIMITER_SCAPE = "\\";
+    public static final String DELIMITER_ESCAPE = "\\";
+    public static final String DELIMITADOR_ESPACIO = " ";
     public static final Integer NO_LIMIT = -1;
     public static final Integer NEGATIVO = -1;
     public static final Integer _0 = 0;
@@ -98,7 +101,9 @@ public class Constante
     public static final String METODO_ANULAR_COLABORADOR = "AnularColaborador";
     public static final String CONTROLADOR_NOTIFICACION = "Notificacion";
     public static final String METODO_ENVIAR_NOTIFICACION = "EnviarNotificacion";
-    public static final String EMAIL_RECIPIENTS = "email.recipients";
+    public static final String EMAIL_DE = "email.de";
+    public static final String EMAIL_PARA = "email.para";
+    public static final String EMAIL_ASUNTO = "email.asunto";
     public static final int TIPO_OPERACION_CREAR = 0;
     public static final int TIPO_OPERACION_EDITAR = 1;
     public static final int TIPO_OPERACION_ANULAR = 2;

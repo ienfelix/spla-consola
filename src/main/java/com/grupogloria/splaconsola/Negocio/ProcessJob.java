@@ -24,8 +24,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 @EnableBatchProcessing
 public class ProcessJob
 {
-    @Autowired
+	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
+
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
 
@@ -49,7 +50,7 @@ public class ProcessJob
 		return factory.getObject();
 	}
 
-	@Scheduled(cron = "${app.cron}")
+	@Scheduled(cron = "${app.cron}", zone = "${app.zone}")
 	public void perform() throws Exception {
 		System.out.println("Job Started at :" + new Date());
 		JobParameters param = new JobParametersBuilder().addString("JobID", String.valueOf(System.currentTimeMillis())).toJobParameters();
