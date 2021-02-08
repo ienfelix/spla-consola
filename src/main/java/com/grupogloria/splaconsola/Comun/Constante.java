@@ -76,6 +76,7 @@ public class Constante
     public static final String PROCESANDO_ENTIDAD = "Procesando %1$s archivo %2$s";
     public static final String TRAMITANDO_ARCHIVO = "%1$s tramitó y creó el archivo %2$s";
     public static final String VACIO_ARCHIVO = "El archivo %1$s presenta la fila %2$s vacía.";
+    public static final String DURACION_ARCHIVO = "El archivo se procesó con fecha de inicio %1$s y fecha de fin %2$s";
     public static final String ENTIDAD_CLIENTE = "Cliente";
     public static final String ENTIDAD_PROVEEDOR = "Proveedor";
     public static final String ENTIDAD_COLABORADOR = "Colaborador";
@@ -117,4 +118,6 @@ public class Constante
     public static final String ID_INTERNO_CLIENTE = "idInternoCliente";
     public static final String MENSAJE_SI = "Se";
     public static final String MENSAJE_NO = "No se";
+    public static final String FORMAT_FECHA = "yyyy-MM-dd";
+    public static final String FORMAT_FECHA_HORA = "yyyy-MM-dd HH:mm";
 }

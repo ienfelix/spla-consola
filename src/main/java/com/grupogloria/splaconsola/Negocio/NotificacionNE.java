@@ -28,7 +28,7 @@ public class NotificacionNE implements NotificacionIN
         _log = new Log(NotificacionNE.class.getName(), "");
     }
 
-    public ObjetoNotificacionMO EnviarNotificacion(String nombreArchivo, List<ArchivoMO> listaArchivos, String entidad) throws Exception
+    public ObjetoNotificacionMO EnviarNotificacion(String nombreArchivo, List<ArchivoMO> listaArchivos, String entidad, String fechaInicial, String fechaFinal) throws Exception
     {
         ObjetoNotificacionMO objetoNotificacionMO = new ObjetoNotificacionMO();
         try
@@ -41,6 +41,8 @@ public class NotificacionNE implements NotificacionIN
             notificacionMO.setPara(apiMO.getPara());
             notificacionMO.setAsunto(apiMO.getAsunto());
             notificacionMO.setEntidad(entidad);
+            notificacionMO.setFechaInicial(fechaInicial);
+            notificacionMO.setFechaFinal(fechaFinal);
             String enlace = apiMO.getApiEnlace();
             String metodo = Constante.DELIMITADOR_BARRA_OBLICUA + apiMO.getApiControlador() + Constante.DELIMITADOR_BARRA_OBLICUA + apiMO.getApiMetodo();
             WebClient webClient = WebClient.create(enlace);

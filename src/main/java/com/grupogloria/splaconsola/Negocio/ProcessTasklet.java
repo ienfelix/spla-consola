@@ -2,7 +2,9 @@ package com.grupogloria.splaconsola.Negocio;
 
 import java.io.File;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -128,6 +130,8 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 							{
 								if (fileType == FTPFile.FILE_TYPE && extension.equals(Constante.EXTENSION_ZIP))
 								{
+									SimpleDateFormat simpleDateFormat = new SimpleDateFormat(Constante.FORMAT_FECHA_HORA);
+									String fechaInicial = simpleDateFormat.format(new Date());
 									Boolean esCliente = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_CLIENTE.toLowerCase());
 									Boolean esProveedor = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_PROVEEDOR.toLowerCase());
 									Boolean esColaborador = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_COLABORADOR.toLowerCase());
@@ -145,6 +149,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 									while(entries.hasMoreElements())
 									{
 										listaArchivos = new ArrayList<>();
+										String fechaInicio = simpleDateFormat.format(new Date());
 										ZipEntry entry = entries.nextElement();
 										InputStream currentInputStream = zipFile.getInputStream(entry);
 										List<String> lines = IOUtils.readLines(currentInputStream, Constante.UTF_8);
@@ -170,14 +175,19 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 											archivoMO.setMensaje(objetoColaboradorMO.getMensaje());
 										}
 
+										String fechaFin = simpleDateFormat.format(new Date());
+										archivoMO.setFechaInicio(fechaInicio);
+										archivoMO.setFechaFin(fechaFin);
 										listaArchivos.add(archivoMO);
+										_log.info(String.format(Constante.DURACION_ARCHIVO, fechaInicio, fechaFin));
 									}
 
 									zipFile.close();
 									FileUtils.forceDelete(tempFile);
 									_ftpClient.deleteFile(ftpFile.getName());
 									String entidad = esCliente ? Constante.ENTIDAD_CLIENTE : esProveedor ? Constante.ENTIDAD_PROVEEDOR : Constante.ENTIDAD_COLABORADOR;
-									ObjetoNotificacionMO objetoNotificacionMO = _notificacionNE.EnviarNotificacion(nombreArchivo, listaArchivos, entidad);
+									String fechaFinal = simpleDateFormat.format(new Date());
+									ObjetoNotificacionMO objetoNotificacionMO = _notificacionNE.EnviarNotificacion(nombreArchivo, listaArchivos, entidad, fechaInicial, fechaFinal);
 									_log.info(objetoNotificacionMO.getMensaje());
 								}
 							}

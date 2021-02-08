@@ -10,6 +10,8 @@ public class NotificacionMO
     private String Para;
     private String Asunto;
     private String Entidad;
+    private String FechaInicial;
+    private String FechaFinal;
 
     public String getNombreArchivo() {
         return NombreArchivo;
@@ -57,5 +59,21 @@ public class NotificacionMO
 
     public void setEntidad(String entidad) {
         Entidad = entidad;
+    }
+
+    public String getFechaInicial() {
+        return FechaInicial;
+    }
+
+    public void setFechaInicial(String fechaInicial) {
+        FechaInicial = fechaInicial;
+    }
+
+    public String getFechaFinal() {
+        return FechaFinal;
+    }
+
+    public void setFechaFinal(String fechaFinal) {
+        FechaFinal = fechaFinal;
     }
 }

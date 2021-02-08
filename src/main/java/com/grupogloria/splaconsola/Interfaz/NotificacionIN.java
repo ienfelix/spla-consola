@@ -7,5 +7,5 @@ import com.grupogloria.splaconsola.Modelo.ObjetoNotificacionMO;
 
 public interface NotificacionIN
 {
-    public ObjetoNotificacionMO EnviarNotificacion(String nombreArchivo, List<ArchivoMO> listaArchivos, String entidad) throws Exception;
+    public ObjetoNotificacionMO EnviarNotificacion(String nombreArchivo, List<ArchivoMO> listaArchivos, String entidad, String fechaInicial, String fechaFinal) throws Exception;
 }
