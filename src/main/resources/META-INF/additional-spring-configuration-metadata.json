@@ -78,5 +78,10 @@
     "name": "email.asunto",
     "type": "java.lang.String",
     "description": "A description for 'email.asunto'"
+  },
+  {
+    "name": "api.ruta-trabajo",
+    "type": "java.lang.String",
+    "description": "A description for 'api.ruta-trabajo'"
   }
 ]}

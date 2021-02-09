@@ -52,7 +52,7 @@ public class ClienteNE implements ClienteIN
 
                         if (cadena.equals(""))
                         {
-                            _log.info(String.format(Constante.VACIO_ARCHIVO, nombreArchivoSinExtension, i + Constante._1));
+                            _log.info(String.format(Constante.ARCHIVO_VACIO, nombreArchivoSinExtension, i + Constante._1));
                             contador++;
                         }
                         else
@@ -111,7 +111,7 @@ public class ClienteNE implements ClienteIN
                     FileWriter fileWriterOk = new FileWriter(fileOk, true);
                     IOUtils.writeLines(linesOk, Constante.DELIMITADOR_SALTO_LINEA, fileWriterOk);
                     fileWriterOk.close();
-                    _log.info(String.format(Constante.TRAMITANDO_ARCHIVO, fileOk.length() > Constante._0 ? Constante.MENSAJE_SI : Constante.MENSAJE_NO, rutaArchivoOk));
+                    _log.info(String.format(Constante.ARCHIVO_TRAMITADO, fileOk.length() > Constante._0 ? Constante.MENSAJE_SI : Constante.MENSAJE_NO, rutaArchivoOk));
                 }
                 if (linesNoOk.size() > Constante._0)
                 {
@@ -119,7 +119,7 @@ public class ClienteNE implements ClienteIN
                     FileWriter fileWriterNoOk = new FileWriter(fileNoOk, true);
                     IOUtils.writeLines(linesNoOk, Constante.DELIMITADOR_SALTO_LINEA, fileWriterNoOk);
                     fileWriterNoOk.close();
-                    _log.info(String.format(Constante.TRAMITANDO_ARCHIVO, fileNoOk.length() > Constante._0 ? Constante.MENSAJE_SI : Constante.MENSAJE_NO, rutaArchivoNoOk));
+                    _log.info(String.format(Constante.ARCHIVO_TRAMITADO, fileNoOk.length() > Constante._0 ? Constante.MENSAJE_SI : Constante.MENSAJE_NO, rutaArchivoNoOk));
                 }
                 
                 objetoClienteMO.setCodigo(contador == listaClientes.size() ? Constante.CODIGO_OK : Constante.CODIGO_NO_OK);

@@ -37,18 +37,20 @@ public class Util
             Integer port = Integer.parseInt(ftpPort);
             String environment = IsNullOrEmpty(properties.getProperty(Constante.FTP_ENVIRONMENT)) ? "" : properties.getProperty(Constante.FTP_ENVIRONMENT);
             String directory = IsNullOrEmpty(properties.getProperty(Constante.FTP_DIRECTORY)) ? "" : properties.getProperty(Constante.FTP_DIRECTORY);
-            String workSpace = Constante.DELIMITADOR_BARRA_OBLICUA + environment + Constante.DELIMITADOR_BARRA_OBLICUA + directory;
+            String workspace = Constante.DELIMITADOR_BARRA_OBLICUA + environment + Constante.DELIMITADOR_BARRA_OBLICUA + directory;
             String rutaProcesado = IsNullOrEmpty(properties.getProperty(Constante.API_RUTA_PROCESADO)) ? "" : properties.getProperty(Constante.API_RUTA_PROCESADO);
             String rutaNoProcesado = IsNullOrEmpty(properties.getProperty(Constante.API_RUTA_NO_PROCESADO)) ? "" : properties.getProperty(Constante.API_RUTA_NO_PROCESADO);
+            String rutaTrabajo = IsNullOrEmpty(properties.getProperty(Constante.API_RUTA_TRABAJO)) ? "" : properties.getProperty(Constante.API_RUTA_TRABAJO);
             conexionMO.setFtpServer(ftpServer);
             conexionMO.setFtpUsername(ftpUsername);
             conexionMO.setFtpPassword(ftpPassword);
             conexionMO.setFtpPort(port);
-            conexionMO.setFtpDirectory(workSpace);
+            conexionMO.setFtpWorkspace(workspace);
             conexionMO.setRutaProcesado(rutaProcesado);
             conexionMO.setRutaNoProcesado(rutaNoProcesado);
+            conexionMO.setRutaTrabajo(rutaTrabajo);
             properties.clear();
-            CrearCarpetaTrabajo(rutaProcesado, rutaNoProcesado);
+            CrearCarpetaTrabajo(rutaProcesado, rutaNoProcesado, rutaTrabajo);
         }
         catch (Exception e)
         {
@@ -68,13 +70,14 @@ public class Util
         return conexionMO;
     }
 
-    private Boolean CrearCarpetaTrabajo(String rutaProcesado, String rutaNoProcesado) throws Exception
+    private Boolean CrearCarpetaTrabajo(String rutaProcesado, String rutaNoProcesado, String rutaTrabajo) throws Exception
     {
         Boolean esCorrecto = false;
         try
         {
             File fileProcesado = new File(rutaProcesado);
             File fileNoProcesado = new File(rutaNoProcesado);
+            File fileTrabajo = new File(rutaTrabajo);
 
             if (!fileProcesado.exists())
             {
@@ -84,7 +87,11 @@ public class Util
             {
                 fileNoProcesado.mkdirs();
             }
-            if (fileProcesado.exists() && fileNoProcesado.exists())
+            if (!fileTrabajo.exists())
+            {
+                fileTrabajo.mkdirs();
+            }
+            if (fileProcesado.exists() && fileNoProcesado.exists() && fileTrabajo.exists())
             {
                 esCorrecto = true;
             }

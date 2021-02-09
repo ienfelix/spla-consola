@@ -70,13 +70,16 @@ public class Constante
     public static final String CREDENCIALES_INCORRECTAS = "El usuario %1$s y/o clave %2$s no son correctas.";
     public static final String DIRECTORIO_CAIDO = "El directorio %1$s del servidor FTP %2$s no se encuentra activo.";
     public static final String ERROR = "%1$s > %2$s > %3$s > %4$s";
-    public static final String ENCOLA_ARCHIVO = "Archivos en cola > %1$s";
-    public static final String RECORRIENDO_ARCHIVO = "Recorriendo archivo %1$s";
-    public static final String ENCURSO_ARCHIVO = "Archivo en curso %1$s";
+    public static final String ARCHIVO_ENCOLA = "Archivos en cola > %1$s";
+    public static final String ARCHIVO_RECORRIDO = "Archivo recorrido %1$s";
+    public static final String ARCHIVO_DESCARGADO = "Archivo descargado %1$s > %2$s";
+    public static final String ARCHIVOS_DESCARGADOS = "Se descargó %1$s archivo(s) de un total de %2$s archivo(s).";
+    public static final String ARCHIVO_ENCURSO = "Archivo en curso %1$s";
     public static final String PROCESANDO_ENTIDAD = "Procesando %1$s archivo %2$s";
-    public static final String TRAMITANDO_ARCHIVO = "%1$s tramitó y creó el archivo %2$s";
-    public static final String VACIO_ARCHIVO = "El archivo %1$s presenta la fila %2$s vacía.";
-    public static final String DURACION_ARCHIVO = "El archivo se procesó con fecha de inicio %1$s y fecha de fin %2$s";
+    public static final String ARCHIVO_TRAMITADO = "%1$s tramitó y creó el archivo %2$s";
+    public static final String ARCHIVO_VACIO = "El archivo %1$s presenta la fila %2$s vacía.";
+    public static final String ARCHIVO_DURACION = "El archivo se procesó con fecha de inicio %1$s y fecha de fin %2$s";
+    public static final String ARCHIVO_ELIMINADO = "Archivo eliminado %1$s > %2$s";
     public static final String ENTIDAD_CLIENTE = "Cliente";
     public static final String ENTIDAD_PROVEEDOR = "Proveedor";
     public static final String ENTIDAD_COLABORADOR = "Colaborador";
@@ -85,6 +88,7 @@ public class Constante
     public static final String API_URL = "api.url";
     public static final String API_RUTA_PROCESADO = "api.ruta-procesado";
     public static final String API_RUTA_NO_PROCESADO = "api.ruta-noprocesado";
+    public static final String API_RUTA_TRABAJO = "api.ruta-trabajo";
     public static final String API_RUTA_BITACORA = "api.ruta-bitacora";
     public static final String API_NOMBRE_BITACORA = "api.nombre-bitacora";
     public static final String APPLICATION_PROPERTIES = "application.properties";
@@ -119,5 +123,5 @@ public class Constante
     public static final String MENSAJE_SI = "Se";
     public static final String MENSAJE_NO = "No se";
     public static final String FORMAT_FECHA = "yyyy-MM-dd";
-    public static final String FORMAT_FECHA_HORA = "yyyy-MM-dd HH:mm";
+    public static final String FORMAT_FECHA_HORA = "yyyy-MM-dd HH:mm:ss";
 }

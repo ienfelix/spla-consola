@@ -6,9 +6,10 @@ public class ConexionMO
     private String FtpUsername;
     private String FtpPassword;
     private Integer FtpPort;
-    private String FtpDirectory;
+    private String FtpWorkspace;
     private String RutaProcesado;
     private String RutaNoProcesado;
+    private String RutaTrabajo;
     
     public String getFtpServer() {
         return FtpServer;
@@ -42,12 +43,12 @@ public class ConexionMO
         FtpPort = ftpPort;
     }
 
-    public String getFtpDirectory() {
-        return FtpDirectory;
+    public String getFtpWorkspace() {
+        return FtpWorkspace;
     }
 
-    public void setFtpDirectory(String ftpDirectory) {
-        FtpDirectory = ftpDirectory;
+    public void setFtpWorkspace(String ftpWorkspace) {
+        FtpWorkspace = ftpWorkspace;
     }
 
     public String getRutaProcesado() {
@@ -64,5 +65,13 @@ public class ConexionMO
 
     public void setRutaNoProcesado(String rutaNoProcesado) {
         RutaNoProcesado = rutaNoProcesado;
+    }
+
+    public String getRutaTrabajo() {
+        return RutaTrabajo;
+    }
+
+    public void setRutaTrabajo(String rutaTrabajo) {
+        RutaTrabajo = rutaTrabajo;
     }
 }
