@@ -1,7 +1,9 @@
 package com.grupogloria.splaconsola.Negocio;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -12,6 +14,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 import com.grupogloria.splaconsola.Comun.Constante;
 import com.grupogloria.splaconsola.Comun.Log;
@@ -199,7 +202,7 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 						Boolean esCliente = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_CLIENTE.toLowerCase());
 						Boolean esProveedor = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_PROVEEDOR.toLowerCase());
 						Boolean esColaborador = nombreArchivo.toLowerCase().contains(Constante.ENTIDAD_COLABORADOR.toLowerCase());
-						ZipFile zipFile = new ZipFile(file);
+						/*ZipFile zipFile = new ZipFile(file.getName());
 						Enumeration<? extends ZipEntry> entries = zipFile.entries();
 						List<ArchivoMO> listaArchivos = null;
 
@@ -239,7 +242,63 @@ public class ProcessTasklet implements Tasklet, InitializingBean
 							_log.info(String.format(Constante.ARCHIVO_DURACION, fechaInicio, fechaFin));
 						}
 
-						zipFile.close();
+						zipFile.close();*/
+						FileInputStream fileInputStream = new FileInputStream(file.getPath());
+						ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
+						ZipEntry zipEntry = zipInputStream.getNextEntry();
+						List<ArchivoMO> listaArchivos = null;
+
+						while (zipEntry != null)
+						{
+							listaArchivos = new ArrayList<>();
+							String fechaInicio = simpleDateFormat.format(new Date());
+							File tempFile = File.createTempFile(zipEntry.getName(), null);
+							FileOutputStream fileOutputStream = new FileOutputStream(tempFile.getPath());
+							int len;
+							byte buffer[] = new byte[Constante._1024];
+							
+							while ((len=zipInputStream.read(buffer)) > Constante._0)
+							{
+								fileOutputStream.write(buffer, Constante._0, len);
+							}
+							
+							fileOutputStream.close();
+							InputStream inputStream = new FileInputStream(tempFile);
+							List<String> lines = IOUtils.readLines(inputStream, Constante.UTF_8);
+							FileUtils.forceDeleteOnExit(tempFile);
+							ArchivoMO archivoMO = new ArchivoMO();
+							String archivoEnCurso = zipEntry.getName();
+							archivoMO.setNombreArchivo(archivoEnCurso);
+							_log.info(String.format(Constante.ARCHIVO_ENCURSO, archivoEnCurso));
+							
+							if (esCliente)
+							{
+								ObjetoClienteMO objetoClienteMO = _clienteNE.ProcesarClientes(lines, nombreArchivoSinExtension, conexionMO.getRutaProcesado(), conexionMO.getRutaNoProcesado());
+								archivoMO.setMensaje(objetoClienteMO.getMensaje());
+							}
+							else if (esProveedor)
+							{
+								ObjetoProveedorMO objetoProveedorMO = _proveedorNE.ProcesarProveedores(lines, nombreArchivoSinExtension, conexionMO.getRutaProcesado(), conexionMO.getRutaNoProcesado());
+								archivoMO.setMensaje(objetoProveedorMO.getMensaje());
+							}
+							else if (esColaborador)
+							{
+								ObjetoColaboradorMO objetoColaboradorMO = _colaboradorNE.ProcesarColaboradores(lines, nombreArchivoSinExtension, conexionMO.getRutaProcesado(), conexionMO.getRutaNoProcesado());
+								archivoMO.setMensaje(objetoColaboradorMO.getMensaje());
+							}
+
+							String fechaFin = simpleDateFormat.format(new Date());
+							archivoMO.setFechaInicio(fechaInicio);
+							archivoMO.setFechaFin(fechaFin);
+							listaArchivos.add(archivoMO);
+							_log.info(String.format(Constante.ARCHIVO_DURACION, fechaInicio, fechaFin));
+							zipInputStream.closeEntry();
+							zipEntry = zipInputStream.getNextEntry();
+						}
+
+						zipInputStream.close();
+						fileInputStream.close();
+						//////////////////////////////////////////////////
 						FileUtils.forceDelete(file);
 						EliminarArchivo(conexionMO, nombreArchivo);
 						String entidad = esCliente ? Constante.ENTIDAD_CLIENTE : esProveedor ? Constante.ENTIDAD_PROVEEDOR : Constante.ENTIDAD_COLABORADOR;

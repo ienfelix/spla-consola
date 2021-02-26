@@ -62,6 +62,7 @@ public class Constante
     public static final Integer _38 = 38;
     public static final Integer _39 = 39;
     public static final Integer _40 = 40;
+    public static final Integer _1024 = 1024;
     public static final String FTP_CONNECTION = "Se establece conexión con el servidor > %1$s > %2$s";
     public static final String FTP_REPLY = "Respuesta del servidor > %1$s > %2$s";
     public static final String FTP_INICIO_SESION = "Se inicia sesión en el servidor > %1$s > %2$s";
